@@ -1,6 +1,6 @@
 package livro;
 
-public class Livro {
+public class Livro implements Comparable<Livro> {
 	
 	private String titulo;
 	private String autor;
@@ -16,7 +16,6 @@ public class Livro {
 		this.valor = valor;
 		id = contadorDeId;
 		contadorDeId++;
-		System.out.println("O livro " + this.getTitulo() + " foi cadastrado com sucesso.");
 	}
 	
 	public String getTitulo() {
@@ -65,6 +64,17 @@ public class Livro {
 			return 0;
 		} else {
 			return notaDeAvaliacao / numeroDeVotos;
+		}
+	}
+
+	@Override
+	public int compareTo(Livro outroLivro) {
+		if (this.getAvaliacao() > outroLivro.getAvaliacao()) {
+			return -1;
+		} else if (this.getAvaliacao() < outroLivro.getAvaliacao()) {
+			return +1;
+		} else {
+			return 0;
 		}
 	}	
 	

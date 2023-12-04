@@ -1,6 +1,8 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import livro.Livro;
@@ -163,12 +165,39 @@ public class Main {
 	}
 	
 	public void listarLivro() {
-		if (listaDeLivros.isEmpty()) {
-			System.out.println("Não há livros registrados.");
+		boolean varListarLivro = true;
+		if (!listaDeLivros.isEmpty()) {
+			do {
+				System.out.println("\n1 - Listar todos livros");
+				System.out.println("2 - Top 3 Livros");
+				System.out.println("0 - Voltar");
+				System.out.print("Escolha: ");
+				int numeroEscolhaListaLivro = le.nextInt();
+				le.nextLine();
+				
+				switch (numeroEscolhaListaLivro) {
+				case 0:
+					varListarLivro = false;
+					break;
+				case 1:
+					for (Livro livro : listaDeLivros) {
+						System.out.println(livro.toString());
+					}
+					break;
+				case 2:
+					ArrayList<Livro> listaOrdenadaPorAvaliacao = new ArrayList<>(listaDeLivros);
+					Collections.sort(listaOrdenadaPorAvaliacao);
+					for (int i = 0; i < 1; i++) {
+						System.out.println(listaOrdenadaPorAvaliacao.get(i));
+					}
+					break;
+				default:
+					System.out.println("Você digitou uma opção inválida. Tente novamente!");
+					break;
+				}			
+			} while (varListarLivro == true);		
 		} else {
-			for (Livro livro : listaDeLivros) {
-				System.out.println(livro.toString());
-			}			
+			System.out.println("Não há livros registrados.");
 		}
 	}
 	
@@ -180,20 +209,28 @@ public class Main {
 			do {
 				System.out.print("Digite o nome do livro que deseja avaliar: ");
 				String varNomeLivroAvaliar = le.nextLine();
-				for (Livro livro : listaDeLivros) {
-					if (livro.getTitulo().equalsIgnoreCase(varNomeLivroAvaliar)) {
-						System.out.print("Digite a nota do livro: ");
-						Double notaDeAvaliacao = le.nextDouble();
-						le.nextLine();
-						if (notaDeAvaliacao > 10) {
-							System.out.println("Você deve avaliar uma nota de 0 a 10.");
-						} else {
-							livro.avaliar(notaDeAvaliacao);
-							varAvalia = false;
-						}
-					} else {
-						System.out.println("O livro não existe.");
-					}
+				Iterator<Livro> iterator = listaDeLivros.iterator();
+				boolean livroEncontrado = false;
+				
+				while (iterator.hasNext()) {
+				    Livro livro = iterator.next();
+				    if (livro.getTitulo().equalsIgnoreCase(varNomeLivroAvaliar)) {
+				        System.out.print("Digite a nota do livro: ");
+				        Double notaDeAvaliacao = le.nextDouble();
+				        le.nextLine();
+				        if (notaDeAvaliacao > 10) {
+				            System.out.println("Você deve avaliar uma nota de 0 a 10.");
+				        } else {
+				            livro.avaliar(notaDeAvaliacao);
+				            varAvalia = false;
+				        }
+				        livroEncontrado = true;
+				        break;
+				    } 
+				}
+				if (!livroEncontrado) {
+					System.out.println("O livro não existe.");
+					varAvalia = false;
 				}
 			} while (varAvalia == true);
 		
