@@ -1,4 +1,4 @@
-package main;
+package application;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,11 +60,11 @@ public class Main {
 
 	public void cadastrarLivro() {
 		System.out.println("\nCadastro De livro");
-		System.out.print("\nDigite o nome do livro: ");
+		System.out.print("\nNome do livro: ");
 		String nomeDoLivro = le.nextLine();
-		System.out.print("Digite o autor do Livro: ");
+		System.out.print("Autor do Livro: ");
 		String autorDoLivro = le.nextLine();
-		System.out.print("Digite o valor do livro: ");
+		System.out.print("Valor do livro: ");
 		double valorDoLivro = le.nextDouble();
 			
 		Livro livro = new Livro(nomeDoLivro, autorDoLivro, valorDoLivro);
@@ -72,6 +72,8 @@ public class Main {
 	}
 
 	public void editarLivro() {
+		
+		if (!listaDeLivros.isEmpty()) {
 		boolean variavelGerenciaLivro = true;
 		
 		do {
@@ -161,6 +163,9 @@ public class Main {
 				break;
 			}
 		} while (variavelGerenciaLivro == true);
+	} else {
+		System.out.println("Não há livros registrados!");
+	}
 		
 	}
 	
